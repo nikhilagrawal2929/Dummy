@@ -1,15 +1,1 @@
- public static String  generateURL(Date createdDateTime) {
-        ZoneId londonZone = ZoneId.of("Europe/London");
-        LocalDateTime createdDate = createdDateTime.toInstant().atZone(londonZone).toLocalDateTime();
-        System.out.println(createdDate);
-        LocalDateTime yesterday7pm = LocalDateTime.now(londonZone).toLocalDate().minusDays(1).atTime(19, 0);
-        LocalDateTime today6_59pm = LocalDateTime.now(londonZone).toLocalDate().atTime(18, 59);
 
-        if (createdDate.isAfter(yesterday7pm) && createdDate.isBefore(today6_59pm)) {
-            return "https://pmdev/2LCS_order";
-        } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-            String formattedDate = createdDate.format(formatter);
-            return "https://pmdev/" + formattedDate + "/2LCS_order";
-        }
-    }
