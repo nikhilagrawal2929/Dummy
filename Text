@@ -1,1 +1,34 @@
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 
+public class S3Service {
+
+    private final S3Client s3Client;
+
+    public S3Service(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
+
+    /**
+     * Checks if a file or directory exists in the S3 bucket.
+     *
+     * @param bucketName The name of the S3 bucket.
+     * @param key        The key representing the file or directory path.
+     * @return True if the file or directory exists, false otherwise.
+     */
+    public boolean doesObjectExist(String bucketName, String key) {
+        try {
+            HeadObjectResponse response = s3Client.headObject(HeadObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(key)
+                    .build());
+
+            // If the request is successful, the object (file or directory) exists
+            return response != null;
+        } catch (Exception e) {
+            // If an exception is thrown, the object does not exist
+            return false;
+        }
+    }
+}
