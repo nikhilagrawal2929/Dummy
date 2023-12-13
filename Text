@@ -1,34 +1,24 @@
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
-import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
-
-public class S3Service {
-
-    private final S3Client s3Client;
-
-    public S3Service(S3Client s3Client) {
-        this.s3Client = s3Client;
-    }
-
-    /**
-     * Checks if a file or directory exists in the S3 bucket.
-     *
-     * @param bucketName The name of the S3 bucket.
-     * @param key        The key representing the file or directory path.
-     * @return True if the file or directory exists, false otherwise.
-     */
-    public boolean doesObjectExist(String bucketName, String key) {
-        try {
-            HeadObjectResponse response = s3Client.headObject(HeadObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(key)
-                    .build());
-
-            // If the request is successful, the object (file or directory) exists
-            return response != null;
-        } catch (Exception e) {
-            // If an exception is thrown, the object does not exist
-            return false;
-        }
-    }
-}
+ httpSecurity.csrf().disable()
+                // Secured /ccp/api/team
+                .authorizeRequests().antMatchers("/ccp/api/printspool/cancelLetter").authenticated().
+                anyRequest().permitAll().
+                and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
+                and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic().and()
+                .headers()
+                .permissionsPolicy().policy("geolocation=(),midi=(),sync-xhr=(),microphone=(0,camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=0)")
+                .and()
+                .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN)
+                .and()
+                .cacheControl().disable()
+                .httpStrictTransportSecurity()
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000)
+                .preload(true)
+                .and()
+                .contentSecurityPolicy("default-src 'self';")
+                .and()
+                .xssProtection()
+                .block(true)
+                .and()
+                .frameOptions()
+                .deny();
