@@ -1,24 +1,40 @@
- httpSecurity.csrf().disable()
-                // Secured /ccp/api/team
-                .authorizeRequests().antMatchers("/ccp/api/printspool/cancelLetter").authenticated().
-                anyRequest().permitAll().
-                and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
-                and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic().and()
-                .headers()
-                .permissionsPolicy().policy("geolocation=(),midi=(),sync-xhr=(),microphone=(0,camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=0)")
-                .and()
-                .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN)
-                .and()
-                .cacheControl().disable()
-                .httpStrictTransportSecurity()
-                .includeSubDomains(true)
-                .maxAgeInSeconds(31536000)
-                .preload(true)
-                .and()
-                .contentSecurityPolicy("default-src 'self';")
-                .and()
-                .xssProtection()
-                .block(true)
-                .and()
-                .frameOptions()
-                .deny();
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.S3Object;
+
+public class S3ListFiles {
+
+    public static void main(String[] args) {
+        // Set your AWS access key, secret key, and region
+        String accessKey = "YOUR_ACCESS_KEY";
+        String secretKey = "YOUR_SECRET_KEY";
+        String region = "YOUR_REGION"; // e.g., "us-east-1"
+
+        // Create an S3 client
+        S3Client s3Client = S3Client.builder()
+                .region(Region.of(region))
+                .credentialsProvider(() -> AwsBasicCredentials.create(accessKey, secretKey))
+                .build();
+
+        // Set the bucket name
+        String bucketName = "YOUR_BUCKET_NAME";
+
+        // List objects in the bucket
+        listObjects(s3Client, bucketName);
+    }
+
+    private static void listObjects(S3Client s3Client, String bucketName) {
+        ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
+                .bucket(bucketName)
+                .build();
+
+        ListObjectsV2Response listObjectsResponse = s3Client.listObjectsV2(listObjectsRequest);
+
+        System.out.println("Objects in bucket '" + bucketName + "':");
+        for (S3Object s3Object : listObjectsResponse.contents()) {
+            System.out.println(" - " + s3Object.key());
+        }
+    }
+}
