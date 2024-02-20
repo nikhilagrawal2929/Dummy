@@ -1,40 +1,14 @@
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
-import software.amazon.awssdk.services.s3.model.S3Object;
-
-public class S3ListFiles {
-
-    public static void main(String[] args) {
-        // Set your AWS access key, secret key, and region
-        String accessKey = "YOUR_ACCESS_KEY";
-        String secretKey = "YOUR_SECRET_KEY";
-        String region = "YOUR_REGION"; // e.g., "us-east-1"
-
-        // Create an S3 client
-        S3Client s3Client = S3Client.builder()
-                .region(Region.of(region))
-                .credentialsProvider(() -> AwsBasicCredentials.create(accessKey, secretKey))
-                .build();
-
-        // Set the bucket name
-        String bucketName = "YOUR_BUCKET_NAME";
-
-        // List objects in the bucket
-        listObjects(s3Client, bucketName);
-    }
-
-    private static void listObjects(S3Client s3Client, String bucketName) {
-        ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
-                .bucket(bucketName)
-                .build();
-
-        ListObjectsV2Response listObjectsResponse = s3Client.listObjectsV2(listObjectsRequest);
-
-        System.out.println("Objects in bucket '" + bucketName + "':");
-        for (S3Object s3Object : listObjectsResponse.contents()) {
-            System.out.println(" - " + s3Object.key());
-        }
-    }
+{
+  
+   
+  "document":{
+      "communicationAppliesTouchpointSelection":false,
+      "communicationOrderEntryEnabled":true,
+      "communicationDataFeedWebService":{
+         "url":"",
+         "updatedPassword":"",
+         "username":""
+      }
+   },
+   "comm_ref_file":"B000000183|asdsad|sadsad|asdsad|dsadas||||asdsad|02. Braille Grade 1 (B)|salautationee|12345676|000000|NWB|NWB|sadsad|asdsa|Local Print||asdsad|||Yes|dde7d6b5-ef9a-4341-a49a-d63b533aaf03|B000000183|"
 }
