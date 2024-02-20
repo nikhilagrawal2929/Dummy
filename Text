@@ -1,14 +1,1 @@
-{
-  
-   
-  "document":{
-      "communicationAppliesTouchpointSelection":false,
-      "communicationOrderEntryEnabled":true,
-      "communicationDataFeedWebService":{
-         "url":"",
-         "updatedPassword":"",
-         "username":""
-      }
-   },
-   "comm_ref_file":"B000000183|asdsad|sadsad|asdsad|dsadas||||asdsad|02. Braille Grade 1 (B)|salautationee|12345676|000000|NWB|NWB|sadsad|asdsa|Local Print||asdsad|||Yes|dde7d6b5-ef9a-4341-a49a-d63b533aaf03|B000000183|"
-}
+B000000200|czsa||asc|cas|||sac|Yes|01. None|sacas|Yours faithfully|83540652|559100|RBS|RBSI|sac|||321432|Central Print||3af7eda6-25ee-4eb7-84bc-52f46b557e13|B000000200|";
