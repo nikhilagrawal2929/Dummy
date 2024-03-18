@@ -1,1 +1,34 @@
-B000000200|czsa||asc|cas|||sac|Yes|01. None|sacas|Yours faithfully|83540652|559100|RBS|RBSI|sac|||321432|Central Print||3af7eda6-25ee-4eb7-84bc-52f46b557e13|B000000200|";
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+public class DualCaseConverter {
+
+    public static void main(String[] args) {
+        String address = "MR J. & MRS F.J. SMITH\n" +
+                         "FLAT 2B, CITIZEN HOUSE 1 HIGH STREET\n" +
+                         "BRIXTON\n" +
+                         "LONDON\n" +
+                         "SW1 6EJ";
+
+        String convertedAddress = convertToDualCase(address);
+        System.out.println(convertedAddress);
+    }
+
+    public static String convertToDualCase(String address) {
+        return Arrays.stream(address.split("\n"))
+                .map(line -> Arrays.stream(line.split(" "))
+                        .map(word -> {
+                            if (word.startsWith("O'") && word.length() > 2) {
+                                return "O'" + Character.toUpperCase(word.charAt(2)) + word.substring(3).toLowerCase();
+                            } else if (word.startsWith("MC") && word.length() > 2) {
+                                return "Mc" + Character.toUpperCase(word.charAt(2)) + word.substring(3).toLowerCase();
+                            } else if (word.startsWith("MAC") && word.length() > 3 && word.charAt(3) != 'H') {
+                                return "Mac" + Character.toUpperCase(word.charAt(3)) + word.substring(4).toLowerCase();
+                            } else {
+                                return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+                            }
+                        })
+                        .collect(Collectors.joining(" ")))
+                .collect(Collectors.joining("\n"));
+    }
+}
