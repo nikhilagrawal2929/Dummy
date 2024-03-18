@@ -10,7 +10,16 @@ private static String convertToDualCase(String input) {
         } else if (word.startsWith("MAC") && word.length() > 3 && word.charAt(3) != 'h') {
             result.append("Mac").append(Character.toUpperCase(word.charAt(3))).append(word.substring(4).toLowerCase());
         } else {
-            result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1).toLowerCase());
+            StringBuilder convertedWord = new StringBuilder();
+            String[] parts = word.split("\\.");
+            for (String part : parts) {
+                if (part.length() > 1) {
+                    convertedWord.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1).toLowerCase()).append(".");
+                } else {
+                    convertedWord.append(Character.toUpperCase(part.charAt(0))).append(".");
+                }
+            }
+            result.append(convertedWord.substring(0, convertedWord.length() - 1)); // Remove extra dot at the end
         }
         result.append(" ");
     }
