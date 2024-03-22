@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<DriverFile xmlns:xsi="https://natwest.com/XMLSchema-instance">
+  <RecordKey>34</RecordKey>
+  <OrderUuid>1</OrderUuid>
+  <EnvironmentIdentifier>Dev</EnvironmentIdentifier>
+  <PRODUCT_NAME>2CPLTRS</PRODUCT_NAME>
+  <Mailclass>2</Mailclass>
+  <CinOrBin>5</CinOrBin>
+  <Cin2>1</Cin2>
+  <PartyID>12345</PartyID>
+  <EDeliveryOnly>N</EDeliveryOnly>
+  <PaperlessIndicator>P</PaperlessIndicator>
+  <CustomerType>Type 1</CustomerType>
+  <CCPTemplateDB>
+                <TouchpointName>THR_Lending OD-Advice and Evergreen</TouchpointName>
+                <TouchpointGUID>B6C7A927069E854592412346731C3874</TouchpointGUID>
+                <TemplateID>AM7002</TemplateID>
+                <BusinessArea></BusinessArea>
+  </CCPTemplateDB>
+  <Customer>
+	<TEMPLATE_COMMON_NAME>AmethystSRGOpenUnclearLossCRAOfferSR</TEMPLATE_COMMON_NAME>
+    <Brand>UBN</Brand>
+    <MAILING_REF>252595C02_MailRef_2</MAILING_REF>
+    <REF>252595C01</REF>
+    <Title>MR</Title>
+    <First_Names>ALPHA</First_Names>
+    <Surname>SMITH</Surname>
+    <Address_Line_1>1 THE ROAD</Address_Line_1>
+    <Address_Line_2>BLACKPOOL</Address_Line_2>
+    <Address_Line_3>LANCASHIRE</Address_Line_3>
+    <Address_Line_4></Address_Line_4>
+    <Address_Line_5></Address_Line_5>
+    <Postcode>FY1 1AA</Postcode>
+    <Country_Name>GBR</Country_Name>
+    <CIN>1169082352</CIN>
+    <Provider_Name>RBS Collective Investment Funds LTD</Provider_Name>
+    <Product_Name>NatWest Investment Options ISA</Product_Name>
+    <Date_Product_Was_Sold>12/21/2010</Date_Product_Was_Sold>
+    <Date_Product_Was_Bought>2010-12-17</Date_Product_Was_Bought>
+    <Total_Payment_Value>5930.63</Total_Payment_Value>
+    <Payment_Lieu>36.21</Payment_Lieu>
+    <Tax_Deducted>7.24</Tax_Deducted>
+    <Account_Ending>8790</Account_Ending>
+    <Calculation_Date>2023-07-25</Calculation_Date>
+    <Initial_Investment>13131.11</Initial_Investment>
+    <Current_Value>8939.29</Current_Value>
+    <Nominal_Value>14840.95</Nominal_Value>
+    <Difference>5901.66</Difference>
+    <Letter_Post_Date>2023-07-26T14:43:06.825+0100</Letter_Post_Date>
+    <PRODUCT_CLOSED_DATE>12/21/2010</PRODUCT_CLOSED_DATE>
+    <TOTAL_PAYMENT>5930.63</TOTAL_PAYMENT>
+    <WITHDRAWAL_VALUE>5930.63</WITHDRAWAL_VALUE>
+    <RATIONALE></RATIONALE>
+    <ME_SUITABILITY_FAILURE_REASON>the amount you were advised to invest exceeded our limits at the time. We have limits to make sure our customers are not placing too much of their money at risk.</ME_SUITABILITY_FAILURE_REASON>
+    <BENCHMARK>BoE Average Fixed Rate Bond (2 year) IUMB6R</BENCHMARK>
+    <CLOSED_VALUE>8939.29</CLOSED_VALUE>
+    <PRODUCT_PROVIDER>RBS Collective Investment Funds LTD</PRODUCT_PROVIDER>
+    <ALTERNATIVE_PRODUCT_OR_FUND_COMPARISON>5901.66</ALTERNATIVE_PRODUCT_OR_FUND_COMPARISON>
+    <AMOUNT_ABOVE_BENCHMARK>14840.95</AMOUNT_ABOVE_BENCHMARK>
+    <SUITABILITY></SUITABILITY>
+    <Date_Of_Letter></Date_Of_Letter>
+    <DATE_OF_LETTER_90_DAYS></DATE_OF_LETTER_90_DAYS>
+    <SIGNATURE></SIGNATURE>
+    <SIGNED_DATE></SIGNED_DATE>
+    <DATE_OF_LAST_LETTER_SENT></DATE_OF_LAST_LETTER_SENT>
+</Customer>	
+</DriverFile>
