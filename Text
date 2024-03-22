@@ -1,2 +1,8 @@
-String projectDirectory = System.getProperty("user.dir");
-            String absoluteFilePath = Paths.get(projectDirectory, xmlFilesPath, xlsData.getRef() + ".xml").toString();
+ String resourcesPath = DirectoryCreator.class.getClassLoader().getResource("").getPath();
+        File newDirectory = new File(resourcesPath, "myFolder");
+        
+        if (newDirectory.mkdirs()) {
+            System.out.println("Directory created successfully.");
+        } else {
+            System.out.println("Failed to create directory.");
+        }
