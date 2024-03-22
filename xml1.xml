@@ -11,12 +11,7 @@
   <EDeliveryOnly>N</EDeliveryOnly>
   <PaperlessIndicator>P</PaperlessIndicator>
   <CustomerType>Type 1</CustomerType>
-  <CCPTemplateDB>
-                <TouchpointName>THR_Lending OD-Advice and Evergreen</TouchpointName>
-                <TouchpointGUID>B6C7A927069E854592412346731C3874</TouchpointGUID>
-                <TemplateID>AM7002</TemplateID>
-                <BusinessArea></BusinessArea>
-  </CCPTemplateDB>
+ 
   <Customer>
 	<TEMPLATE_COMMON_NAME>AmethystSRGOpenUnclearLossCRAOfferSR</TEMPLATE_COMMON_NAME>
     <Brand>UBN</Brand>
