@@ -1,8 +1,1 @@
- String resourcesPath = DirectoryCreator.class.getClassLoader().getResource("").getPath();
-        File newDirectory = new File(resourcesPath, "myFolder");
-        
-        if (newDirectory.mkdirs()) {
-            System.out.println("Directory created successfully.");
-        } else {
-            System.out.println("Failed to create directory.");
-        }
+/api/v1/applications?metadata.mpdc.touchpoint.name=THR_ASU001-Customer to Contact Old Bank
