@@ -1,1 +1,7 @@
 [{"id":"167ab7bd-6ac4-4610-95be-8b67aaec51b8","_link":"/api/v1/applications/167ab7bd-6ac4-4610-95be-8b67aaec51b8","createdAt":"2024-03-19T13:09:29.317Z","createdBy":"service:1b8b9ff9-905a-46a3-97fa-a1a04c346413","updatedAt":null,"updatedBy":null,"companyId":"7b0f2093-9f89-9429-4a2b-dadcb690be48","name":"THR_AM001-Unlock Confirmation","defaultProductionVersionId":null,"metadata":{"mpdc":{"touchpoint":{"automation":{"production":false,"test":true},"id":"5AAB7065-5376-E340-CB2C-A6CC219D8036","name":"THR_AM001-Unlock Confirmation"}}},"productionVersionId":null}]
+
+
+ for (JsonNode jsonObject : jsonArray) {
+                String id = jsonObject.get("id").asText();
+                System.out.println("ID: " + id);
+            }
