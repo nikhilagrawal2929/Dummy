@@ -1,0 +1,22 @@
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class XMLGenerator {
+
+    public String generateXML(List<String[]> csvData, String[] headers) {
+        StringBuilder xmlBuilder = new StringBuilder("<ccpTeamDb>");
+        for (String[] row : csvData) {
+            xmlBuilder.append("<row>");
+            for (int i = 0; i < row.length; i++) {
+                String value = row[i];
+                if (value != null && !value.isEmpty()) {
+                    xmlBuilder.append("<").append(headers[i]).append(">").append(value).append("</").append(headers[i]).append(">");
+                }
+            }
+            xmlBuilder.append("</row>");
+        }
+        xmlBuilder.append("</ccpTeamDb>");
+        return xmlBuilder.toString();
+    }
+}
