@@ -1,22 +1,38 @@
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.Map;
 
-@Service
-public class XMLGenerator {
+@RestController
+public class CSVController {
 
-    public String generateXML(List<String[]> csvData, String[] headers) {
-        StringBuilder xmlBuilder = new StringBuilder("<ccpTeamDb>");
-        for (String[] row : csvData) {
-            xmlBuilder.append("<row>");
-            for (int i = 0; i < row.length; i++) {
-                String value = row[i];
-                if (value != null && !value.isEmpty()) {
-                    xmlBuilder.append("<").append(headers[i]).append(">").append(value).append("</").append(headers[i]).append(">");
-                }
-            }
-            xmlBuilder.append("</row>");
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSVController.class);
+
+    private final CSVReaderService csvReaderService;
+    private final XMLGenerator xmlGenerator;
+
+    public CSVController(CSVReaderService csvReaderService, XMLGenerator xmlGenerator) {
+        this.csvReaderService = csvReaderService;
+        this.xmlGenerator = xmlGenerator;
+    }
+
+    @GetMapping("/generate-xml")
+    public String generateXMLResponse() {
+        LOGGER.info("Received request to generate XML.");
+        Map<String, CSVData> csvDataMap = csvReaderService.readMultipleCSVs();
+        StringBuilder xmlResponseBuilder = new StringBuilder("<ccpTeamDb>");
+        for (Map.Entry<String, CSVData> entry : csvDataMap.entrySet()) {
+            String fileName = entry.getKey();
+            CSVData csvData = entry.getValue();
+            String[] headers = csvData.getHeaders();
+            List<String[]> csvRecords = csvData.getData();
+            String xmlResponse = xmlGenerator.generateXML(csvRecords, headers);
+            xmlResponseBuilder.append(xmlResponse);
         }
-        xmlBuilder.append("</ccpTeamDb>");
-        return xmlBuilder.toString();
+        xmlResponseBuilder.append("</ccpTeamDb>");
+        LOGGER.info("XML response generated successfully.");
+        return xmlResponseBuilder.toString();
     }
 }
