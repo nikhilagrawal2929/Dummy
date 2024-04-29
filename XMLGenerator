@@ -1,82 +1,22 @@
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @Service
-public class CSVReaderService {
+public class XMLGenerator {
 
-    @Value("${csv.folder.path}")
-    private String csvFolderPath;
-
-    public Map<String, CSVData> readMultipleCSVs() {
-        Map<String, CSVData> csvDataMap = new HashMap<>();
-        ExecutorService executorService = Executors.newCachedThreadPool();
-
-        try {
-            File folder = new File(csvFolderPath);
-            if (!folder.exists() || !folder.isDirectory()) {
-                throw new IllegalArgumentException("Invalid CSV folder path: " + csvFolderPath);
-            }
-
-            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".csv"));
-
-            if (files != null) {
-                List<Future<?>> futures = new ArrayList<>();
-                for (File file : files) {
-                    Future<?> future = executorService.submit(() -> {
-                        try {
-                            CSVData csvData = readCSV(file);
-                            synchronized (csvDataMap) {
-                                csvDataMap.put(file.getName(), csvData);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    futures.add(future);
-                }
-
-                // Wait for all tasks to complete
-                for (Future<?> future : futures) {
-                    future.get();
+    public String generateXML(List<String[]> csvData, String[] headers) {
+        StringBuilder xmlBuilder = new StringBuilder("<ccpTeamDb>");
+        for (String[] row : csvData) {
+            xmlBuilder.append("<row>");
+            for (int i = 0; i < row.length; i++) {
+                String value = row[i];
+                if (value != null && !value.isEmpty()) {
+                    xmlBuilder.append("<").append(headers[i]).append(">").append(value).append("</").append(headers[i]).append(">");
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            executorService.shutdown();
+            xmlBuilder.append("</row>");
         }
-
-        return csvDataMap;
-    }
-
-    private CSVData readCSV(File file) throws Exception {
-        CSVData csvData = new CSVData();
-        CSVReader reader = new CSVReader(new FileReader(file));
-
-        // Read headers
-        String[] headers = reader.readNext();
-
-        // Read data rows
-        List<String[]> records = new ArrayList<>();
-        String[] record;
-        while ((record = reader.readNext()) != null) {
-            records.add(record);
-        }
-
-        csvData.setHeaders(headers);
-        csvData.setData(records);
-
-        reader.close();
-
-        return csvData;
+        xmlBuilder.append("</ccpTeamDb>");
+        return xmlBuilder.toString();
     }
 }
