@@ -1,7 +1,11 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,20 +23,36 @@ public class CSVController {
     }
 
     @GetMapping("/generate-xml")
-    public String generateXMLResponse() {
-        LOGGER.info("Received request to generate XML.");
+    public void generateXMLFiles() {
+        LOGGER.info("Received request to generate XML files.");
         Map<String, CSVData> csvDataMap = csvReaderService.readMultipleCSVs();
-        StringBuilder xmlResponseBuilder = new StringBuilder("<ccpTeamDb>");
         for (Map.Entry<String, CSVData> entry : csvDataMap.entrySet()) {
             String fileName = entry.getKey();
             CSVData csvData = entry.getValue();
             String[] headers = csvData.getHeaders();
             List<String[]> csvRecords = csvData.getData();
-            String xmlResponse = xmlGenerator.generateXML(csvRecords, headers);
-            xmlResponseBuilder.append(xmlResponse);
+            generateAndSaveXMLFiles(fileName, csvRecords, headers);
         }
-        xmlResponseBuilder.append("</ccpTeamDb>");
-        LOGGER.info("XML response generated successfully.");
-        return xmlResponseBuilder.toString();
+        LOGGER.info("XML files generated and saved successfully.");
+    }
+
+    private void generateAndSaveXMLFiles(String fileName, List<String[]> csvRecords, String[] headers) {
+        for (int i = 0; i < csvRecords.size(); i++) {
+            String[] record = csvRecords.get(i);
+            String xmlContent = xmlGenerator.generateXML(record, headers);
+            String xmlFileName = fileName.substring(0, fileName.lastIndexOf(".")) + "_" + i + ".xml";
+            saveXMLFile(xmlFileName, xmlContent);
+        }
+    }
+
+    private void saveXMLFile(String xmlFileName, String xmlContent) {
+        try {
+            Resource resource = new ClassPathResource("regFiles/" + xmlFileName);
+            FileWriter writer = new FileWriter(resource.getFile());
+            writer.write(xmlContent);
+            writer.close();
+        } catch (IOException e) {
+            LOGGER.error("Error saving XML file {}: {}", xmlFileName, e.getMessage());
+        }
     }
 }
