@@ -1,7 +1,93 @@
-[{"id":"167ab7bd-6ac4-4610-95be-8b67aaec51b8","_link":"/api/v1/applications/167ab7bd-6ac4-4610-95be-8b67aaec51b8","createdAt":"2024-03-19T13:09:29.317Z","createdBy":"service:1b8b9ff9-905a-46a3-97fa-a1a04c346413","updatedAt":null,"updatedBy":null,"companyId":"7b0f2093-9f89-9429-4a2b-dadcb690be48","name":"THR_AM001-Unlock Confirmation","defaultProductionVersionId":null,"metadata":{"mpdc":{"touchpoint":{"automation":{"production":false,"test":true},"id":"5AAB7065-5376-E340-CB2C-A6CC219D8036","name":"THR_AM001-Unlock Confirmation"}}},"productionVersionId":null}]
-
-
- for (JsonNode jsonObject : jsonArray) {
-                String id = jsonObject.get("id").asText();
-                System.out.println("ID: " + id);
-            }
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://messagepoint.com/api/schemas">
+    <soapenv:Header>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" soapenv:mustUnderstand="1">
+            <wsse:UsernameToken wsu:Id="">
+                <wsse:Username>rohit.goel3@natwest.com</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Espire@1234</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soapenv:Header>
+    <soapenv:Body>
+        <sch:CreateConnectedOrderRequest>
+            <sch:BranchId>Natwest</sch:BranchId>
+            <sch:NodeId>Development</sch:NodeId>
+            <sch:Prerelease>false</sch:Prerelease>
+            <sch:CreateProof>true</sch:CreateProof>
+            <sch:Touchpoint>
+                <sch:Guid>B6C7A927069E854592412346731C3874</sch:Guid>
+            </sch:Touchpoint>
+            <sch:AuthorUsername>rohit.goel3@natwest.com</sch:AuthorUsername>
+            <sch:DataPointList>
+                <sch:DataPoint>
+                    <sch:Connector>UUID</sch:Connector>
+                    <sch:Value>1</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Print method</sch:Connector>
+                    <sch:Value>Local Print</sch:Value>
+                </sch:DataPoint>
+                  <sch:DataPoint>
+                    <sch:Connector>Addressee 1</sch:Connector>
+                    <sch:Value>Test&lt;characters test</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Address line 1</sch:Connector>
+                    <sch:Value>' ' </sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Address line 2</sch:Connector>
+                    <sch:Value>sfdf</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Address line 3</sch:Connector>
+                    <sch:Value>wer</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Post code</sch:Connector>
+                    <sch:Value>11111111</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Address line 4</sch:Connector>
+                    <sch:Value>Test&#60;characters test</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Confirm that mailing address is correct</sch:Connector>
+                    <sch:Value>Yes</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Customer special requirements for correspondence</sch:Connector>
+                    <sch:Value>01. None</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Salutation name</sch:Connector>
+                    <sch:Value>Mr</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Closing Salutation</sch:Connector>
+                    <sch:Value>Yours faithfully</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Account number</sch:Connector>
+                    <sch:Value>11111111</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Sort code</sch:Connector>
+                    <sch:Value>2222</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Brand</sch:Connector>
+                    <sch:Value>NWB</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Sub-brand</sch:Connector>
+                    <sch:Value>IOM</sch:Value>
+                </sch:DataPoint>
+                <sch:DataPoint>
+                    <sch:Connector>Case reference number</sch:Connector>
+                    <sch:Value>2222</sch:Value>
+                </sch:DataPoint>
+            </sch:DataPointList>
+        </sch:CreateConnectedOrderRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
