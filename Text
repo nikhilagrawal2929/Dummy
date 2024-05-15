@@ -1,1 +1,5 @@
-Hope you're well. As we gear up for the May 23rd release, we've set up a backout plan: if issues arise, we'll switch to the old image. Can you confirm this approach? Your feedback is crucial.
+As we gear up for the 23 May release, I want to confirm our backout plan. Currently, PROD-v1 is live, and we're moving to PROD-V2. In case of any issues, we'll swiftly revert to PROD-v1.
+
+Could you please confirm your understanding and agreement with this plan? A quick reply would be appreciated.
+
+Let me know if you need more details.
