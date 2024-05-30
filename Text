@@ -1,5 +1,12 @@
-As we gear up for the 23 May release, I want to confirm our backout plan. Currently, PROD-v1 is live, and we're moving to PROD-V2. In case of any issues, we'll swiftly revert to PROD-v1.
+https://app.ccpdev.shared.banksvcs.net/ccp/api/batch/regressionBulkRun
+{
+    "30MAY00008": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00008; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00008.pdf",
+    "30MAY00009": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00009; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00009.pdf",
+    "30MAY00010": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00010; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00010.pdf",
+    "30MAY00011": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00011; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00011.pdf",
+    "30MAY00012": "{Header:,Body:{CreateConnectedOrderResponse:{FailureResponse:The input connector = Visa/MasterCard debit card PAN  is unknown}}}",
+    "30MAY00007": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00007; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00007.pdf"
+}
+Post request
 
-Could you please confirm your understanding and agreement with this plan? A quick reply would be appreciated.
-
-Let me know if you need more details.
+git clone : git@nikhil.gitlab-dedicated.com:natwestgroup/DigitalX/Technology/CoreSolutions/CommunicationCompositionPlatform2CP/2cp/cs-communication-services/ccp-batch.git
