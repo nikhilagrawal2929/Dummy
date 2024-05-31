@@ -1,12 +1,1 @@
-https://chatgpt.com/share/0227df02-1348-435f-92e3-01adcbc8a97f
-{
-    "30MAY00008": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00008; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00008.pdf",
-    "30MAY00009": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00009; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00009.pdf",
-    "30MAY00010": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00010; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00010.pdf",
-    "30MAY00011": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00011; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00011.pdf",
-    "30MAY00012": "{Header:,Body:{CreateConnectedOrderResponse:{FailureResponse:The input connector = Visa/MasterCard debit card PAN  is unknown}}}",
-    "30MAY00007": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 30MAY00007; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_30MAY00007.pdf"
-}
-Post request
-
-git clone : git@nikhil.gitlab-dedicated.com:natwestgroup/DigitalX/Technology/CoreSolutions/CommunicationCompositionPlatform2CP/2cp/cs-communication-services/ccp-batch.git
+https://chatgpt.com/share/7d3dd152-33c0-43bc-bac4-d397319708fd
