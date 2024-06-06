@@ -1,28 +1,4 @@
-Sure! Here is a more concise version of the email:
-
----
-
-**Subject:** Approval Request: Update to TemplateBrandRef Table in PROD
-
-Dear [Recipient's Name],
-
-I request your approval to update the `TemplateBrandRef` table in the PROD `2cp` database.
-
-**Plan:**
-1. **Backup:** I will take a complete backup of the `TemplateBrandRef` table.
-2. **Update:** I will proceed with the update.
-3. **Rollback:** If any issues occur, I will revert the changes using the backup.
-
-The update has been tested in lower environments. I plan to execute this change on [proposed date and time].
-
-Please let me know if you have any concerns or need further information.
-
-Best regards,
-
-[Your Full Name]  
-[Your Job Title]  
-[Your Contact Information]
-
----
-
-Feel free to adjust the details as necessary.
+Here are the different roles which are available for this application.
+•	CCP_TEAM_ADMIN_ROLE : This user role would be able to see and cancel any teams created documents. Able to see all orders created by all user. Manage Team maintainance					
+•	CCP_USER_ROLE : This User role would be able to see all Connected orders they have generated, with ability to cancel letter using the unique order ID (Letter Ref in the portal) up until 7pm that day
+•	CCP_ADMIN_ROLE : This user role would be able to select team and see all orders generated for that team, with ability to view PDF and cancel letter using the unique order ID (Letter Ref in the portal) up until 7pm that day
