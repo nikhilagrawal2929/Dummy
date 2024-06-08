@@ -1,21 +1,9 @@
-[
-  {
-    "$addFields": {
-      "auditDateAsDate": {
-        "$dateFromString": {
-          "dateString": "$auditDate"
-        }
+{
+  "$addFields": {
+    "auditDateAsDate": {
+      "$dateFromString": {
+        "dateString": "$auditDate"
       }
     }
-  },
-  {
-    "$addFields": {
-      "hour": { "$hour": "$auditDateAsDate" }
-    }
-  },
-  {
-    "$match": {
-      "hour": { "$gte": 19 }
-    }
   }
-]
+}
