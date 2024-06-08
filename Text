@@ -1,10 +1,12 @@
-{
-  "$match": {
-    "$expr": {
-      "$gte": [
-        { "$hour": "$auditDate" }, 
-        19
-      ]
+[
+  {
+    "$addFields": {
+      "hour": { "$hour": "$auditDate" }
+    }
+  },
+  {
+    "$match": {
+      "hour": { "$gte": 19 }
     }
   }
-}
+]
