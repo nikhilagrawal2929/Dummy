@@ -1,1 +1,10 @@
-https://chatgpt.com/share/ae209dfa-79ea-4ce9-ab30-d3ba77f31c72
+{
+  "$match": {
+    "$expr": {
+      "$gte": [
+        { "$hour": "$auditDate" }, 
+        19
+      ]
+    }
+  }
+}
