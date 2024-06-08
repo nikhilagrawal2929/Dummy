@@ -1,3 +1,51 @@
-https://chatgpt.com/share/b3e770ee-69d0-4cb2-b90a-9c8d1cd199bb
+public ResponseObject create(HttpServletRequest request, @RequestBody CentreTeamDetails teamDetails) {
+        this.centreTeamValidator(teamDetails);
+        centreTeamService.validateUserRole(request);
+        return centreTeamService.create(teamDetails);
+    } @PostMapping(path = "/create")
+package com.natwest.ccps.connected.model.centreteam;
 
-https://chatgpt.com/share/8b7c1a65-a3ca-40f9-87fb-3eaf9c8b0b69
+
+import lombok.Data;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.Pattern;
+
+
+@Document(collection = "centreteamdetails")
+@Data
+@ToString
+public class CentreTeamDetails {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    private String teamId;
+    @Pattern(regexp = "^[^\\d\\W][^'\";,]*$", message = "Team Name cannot start with special characters = @ + - 0-9 and cannot contain ' , \" ; characters")
+    private String teamName;
+    @Pattern(regexp = "^[^\\d\\W][^'\";,]*$", message = "Centre Name cannot start with special characters = @ + - 0-9 and cannot contain ' , \" ; characters")
+    private String centreName;
+    private String branchAddress1;
+    private String branchAddress2;
+    private String branchAddress3;
+    private String branchAddress4;
+    private String branchAddress5;
+    private String branchPostCode;
+    private String phoneNumberRBS;
+    private String phoneNumberNWB;
+    private String phoneNumberUBN;
+    private String lotCodeRbs;
+    private String lotCodeNwb;
+    private String lotCodeUbn;
+    private String overseasNumberRBS;
+    private String overseasNumberNWB;
+    private String overseasNumberUBN;
+    private String breCode;
+    private String breDescription;
+    private String signatory;
+    private String signatoryJobTitle;
+    private String signatorySignature;
+    private String teamExpiryDate;
+    private String businessArea;
+}
