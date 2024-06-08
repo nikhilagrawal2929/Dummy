@@ -1,7 +1,16 @@
 [
   {
     "$addFields": {
-      "hour": { "$hour": "$auditDate" }
+      "auditDateAsDate": {
+        "$dateFromString": {
+          "dateString": "$auditDate"
+        }
+      }
+    }
+  },
+  {
+    "$addFields": {
+      "hour": { "$hour": "$auditDateAsDate" }
     }
   },
   {
