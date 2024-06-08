@@ -1,13 +1,1 @@
-public ResponseObject update(HttpServletRequest request, @PathVariable("teamId") String teamId, @RequestBody CentreTeamDetailsDto teamDetails) {
-        centreTeamService.validateUserRole(request);
-        return centreTeamService.updateTeamUsingId(teamId, teamDetails);
-    }
-public class ResponseObject {
-    private String status;
-    private Date timestamp = new Date();
-    private String message;
-    private String url;
-    private String oprationName;
-    private Object data;
-}
-    @PutMapping(value = "/update/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
+https://chatgpt.com/share/2f8aa542-03d9-4640-8e46-5efdabbe5365
