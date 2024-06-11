@@ -1,1 +1,4 @@
-https://chatgpt.com/share/2f8aa542-03d9-4640-8e46-5efdabbe5365
+ public ResponseObject delete(HttpServletRequest request, @PathVariable("teamId") String teamId) {
+        centreTeamService.validateUserRole(request);
+        return centreTeamService.deleteTeamUsingId(teamId);
+    }
