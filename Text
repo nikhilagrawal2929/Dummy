@@ -1,1 +1,43 @@
-https://chatgpt.com/share/2f8aa542-03d9-4640-8e46-5efdabbe5365
+server:
+  port: 8081
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CERT}
+    key-store-password: ${KEY_STORE_PASS}
+    key-password: ${KEY_STORE_PASS}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-alias: ${KEY_ALIAS}
+  servlet:
+    context-path: ${AUTH_CONTEXT_PATH}
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: ${DB_URL}
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          ccpservices:
+            signing:
+              credentials:
+                - private-key-location: ${KEY_LOCN}
+                  certificate-location: ${CERT_LOCN}
+            identityprovider:
+              entity-id: ${IDP_ENTITY_ID}
+              singlesignon:
+                sign-request: true
+                url: ${IDP_SSO_URL}
+              metadata-uri: ${METADATA_URI}
+
+jwt:
+  secret: ${JWT_SECRET}
+  token:
+    validity: ${JWT_TOKEN_VALIDITY}
+
+cors:
+  allowed-origin: ${CORS_ALLOWED_ORIGIN}
+crypto:
+  secret:
+    key: ${CRYPTO_KEY}
