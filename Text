@@ -1,9 +1,1 @@
-I am writing to seek your approval for an upcoming update to the Prod database table templatebrandref. We plan to update the addressformatInD field for the following two templates:
-
-"AM013-Cert Int-Cert Enclosed-3rd Party L"
-"AM013-Cert Int-Manual Cert-3rd Party"
-The change involves updating the addressformatInD field value from "Third Party" to "Personal".
-
-We are scheduled to make this update on 20th June. In case of any issues arising from this change, we will promptly revert to the previous configuration to ensure minimal disruption.
-
-Could you please confirm your agreement to proceed with this plan?
+..
