@@ -1,99 +1,96 @@
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
+To call a shell script from your Spring Boot application and provide a file as input, you can use the ProcessBuilder class in Java. Here’s a step-by-step guide:
+ 
+1. Create the Shell Script: Ensure your shell script accepts a file as an input argument.
+ 
+	sample code
+	-------------
+	# example-script.sh
+	#!/bin/bash
+	INPUT_FILE=$1
+	echo "Processing file: $INPUT_FILE"
+	# Add your file processing logic here
+ 
+ 
+2. Place the Shell Script in Your Project: Put the shell script in a directory within your project, for example, src/main/resources/scripts.
+ 
+3. Ensure the Shell Script is Executable: Make the script executable. You can do this from the command line:
+ 
+	sample code
+	-------------
+	chmod +x src/main/resources/scripts/example-script.sh
+4. Call the Shell Script from Spring Boot: Use ProcessBuilder in your Spring Boot service or controller to call the shell script with the file as an argument.
+ 
+Here's an example of a Spring Boot service that calls the shell script:
+ 
+	sample code
+	-------------
+	import org.springframework.stereotype.Service;
+ 
+	import java.io.File;
+	import java.io.IOException;
+ 
+	@Service
+	public class ShellScriptService {
+ 
+		private static final String SCRIPT_PATH = "src/main/resources/scripts/example-script.sh";
+ 
+		public void callShellScriptWithFile(String filePath) throws IOException, InterruptedException {
+			// Ensure the file exists
+			File file = new File(filePath);
+			if (!file.exists()) {
+				throw new IllegalArgumentException("File not found: " + filePath);
+			}
+ 
+			// Build the process
+			ProcessBuilder processBuilder = new ProcessBuilder(SCRIPT_PATH, filePath);
+			processBuilder.redirectErrorStream(true);
+ 
+			// Start the process
+			Process process = processBuilder.start();
+ 
+			// Optionally, read the output from the script
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					System.out.println(line);
+				}
+			}
+ 
+			// Wait for the process to finish
+			int exitCode = process.waitFor();
+			if (exitCode != 0) {
+				throw new RuntimeException("Shell script exited with error code: " + exitCode);
+			}
+		}
+	}
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class S3ToGithub {
-
-    private static final String BUCKET_NAME = "recp-2cp-dev-pm-files"; // Change the bucket accordingly
-    private static final Regions CLIENT_REGION = Regions.EU_WEST_1;
-
-    // AWS credentials (Hardcoded for demonstration purposes; not recommended for production)
-    private static final String AWS_ACCESS_KEY_ID = "your-access-key-id";
-    private static final String AWS_SECRET_ACCESS_KEY = "your-secret-access-key";
-
-    public static void main(String[] args) {
-        if (args.length != 1) {
-            System.err.println("Please provide the source file as an argument.");
-            System.exit(1);
-        }
-
-        String sourceFile = args[0];
-
-        // Ensure the input file exists
-        if (!Files.exists(Paths.get(sourceFile))) {
-            System.err.println("File not found: " + sourceFile + ", Kindly pass the file as argument");
-            System.exit(1);
-        }
-
-        // Create a directory with the current date
-        String directory = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        File dir = new File(directory);
-
-        if (!dir.exists()) {
-            if (dir.mkdir()) {
-                System.out.println("Directory '" + directory + "' created");
-            } else {
-                System.err.println("Failed to create directory: " + directory);
-                System.exit(1);
-            }
-        } else {
-            System.out.println("Directory '" + directory + "' already exists");
-        }
-
-        // Initialize S3 client with hardcoded credentials
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY);
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(CLIENT_REGION)
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .build();
-
-        // Read the list of URLs from the user-passed text file
-        try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-
-                // Extract the S3 object file name from the URL
-                String s3FileName = line.substring(line.lastIndexOf('/') + 1);
-                System.out.println("Object file name: " + s3FileName);
-
-                // Download files to local
-                try {
-                    S3Object s3Object = s3Client.getObject(new GetObjectRequest(BUCKET_NAME, s3FileName));
-                    InputStream inputStream = s3Object.getObjectContent();
-                    File localFile = new File(dir, s3FileName);
-
-                    try (FileOutputStream outputStream = new FileOutputStream(localFile)) {
-                        byte[] buffer = new byte[1024];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-                        System.out.println("File " + s3FileName + " downloaded to local successfully");
-                    }
-                } catch (AmazonServiceException e) {
-                    System.err.println("Failed to download: s3://" + BUCKET_NAME + "/" + s3FileName);
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
+5. Call the Service from a Controller: You can create a controller endpoint to call this service method.
+ 
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.web.bind.annotation.GetMapping;
+	import org.springframework.web.bind.annotation.RequestParam;
+	import org.springframework.web.bind.annotation.RestController;
+ 
+	import java.io.IOException;
+ 
+	@RestController
+	public class ShellScriptController {
+ 
+		@Autowired
+		private ShellScriptService shellScriptService;
+ 
+		@GetMapping("/run-script")
+		public String runScript(@RequestParam String filePath) {
+			try {
+				shellScriptService.callShellScriptWithFile(filePath);
+				return "Script executed successfully!";
+			} catch (IOException | InterruptedException e) {
+				return "Error executing script: " + e.getMessage();
+			}
+		}
+	}
+6. Run Your Application: Start your Spring Boot application and call the /run-script endpoint with the file path as a query parameter.
+ 
+	Example:
+http://localhost:8080/run-script?filePath=/path/to/your/file.txt
+This will execute the shell script with the specified file as an argument. Ensure the file path is accessible from your application and the shell script has the necessary permissions to read the file.
