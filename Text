@@ -19,13 +19,13 @@ import java.util.Map;
 public class ShellScriptRunner {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("Usage: java ShellScriptRunner <text-file-path>");
+            System.err.println("Usage: java ShellScriptRunner <csv-file-path>");
             System.exit(1);
         }
 
-        String textFilePath = args[0];
+        String csvFilePath = args[0];
         String apiUrl = "https://app.ccpdev.shared.banksvcs.net/ccp/api/batch/regressionBulkRun";
-        String csvFilePath = "path/to/your/csvfile.csv"; // Update this path to your CSV file
+        String textFilePath = "urls.txt"; // Internally generated text file
 
         try {
             // Call the API and get the response
