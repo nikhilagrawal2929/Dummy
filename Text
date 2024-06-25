@@ -1,9 +1,1 @@
-https://app.ccpdev.shared.banksvcs.net/ccp/api/batch/regressionBulkRun
-{
-    "31jun00005": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 31jun00005; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_31jun00005.pdf",
-    "31jun00006": "{Header:,Body:{CreateConnectedOrderResponse:{FailureResponse:The input connector = Visa/MasterCard debit card PAN  is unknown}}}",
-    "31jun00001": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 31jun00001; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_31jun00001.pdf",
-    "31jun00002": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 31jun00002; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_31jun00002.pdf",
-    "31jun00003": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 31jun00003; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_31jun00003.pdf",
-    "31jun00004": "{Header:,Body:{CreateConnectedOrderResponse:{SuccessResponse:Successfully created order with guid = 31jun00004; proof was triggered for the order; the order was activated}}}, URL : https://recp-2cp-dev-pm-files.s3.eu-west-1.amazonaws.com/2CPLTRS_31jun00004.pdf"
-}
+https://chatgpt.com/share/8b7e6936-cce9-4ef1-a856-15f95e0edd81
