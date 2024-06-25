@@ -15,11 +15,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ShellScriptRunner {
+    private static final Logger logger = Logger.getLogger(ShellScriptRunner.class.getName());
+
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("Usage: java ShellScriptRunner <csv-file-path>");
+            logger.severe("Usage: java ShellScriptRunner <csv-file-path>");
             System.exit(1);
         }
 
@@ -30,17 +34,21 @@ public class ShellScriptRunner {
         try {
             // Call the API and get the response
             String jsonResponse = callApi(apiUrl, csvFilePath);
+            logger.info("API call successful. Response received.");
             
             // Extract URLs from the JSON response
             String urls = extractUrlsFromJson(jsonResponse);
+            logger.info("URLs extracted from JSON response.");
             
             // Write the URLs to a text file
             writeUrlsToFile(urls, textFilePath);
+            logger.info("URLs written to file: " + textFilePath);
             
             // Run the shell script
             runShellScript(textFilePath);
+            logger.info("Shell script executed successfully.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
     }
 
@@ -49,13 +57,14 @@ public class ShellScriptRunner {
         HttpPost uploadFile = new HttpPost(apiUrl);
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addBinaryBody("file", new File(csvFilePath), ContentType.APPLICATION_OCTET_STREAM, "file.csv");
-        
+
         HttpEntity multipart = builder.build();
         uploadFile.setEntity(multipart);
-        
+
+        logger.info("Sending POST request to API: " + apiUrl);
         CloseableHttpResponse response = httpClient.execute(uploadFile);
         HttpEntity responseEntity = response.getEntity();
-        
+
         String result = "";
         if (responseEntity != null) {
             try (InputStream instream = responseEntity.getContent()) {
@@ -64,6 +73,7 @@ public class ShellScriptRunner {
         }
         response.close();
         httpClient.close();
+        logger.info("API response received and processed.");
         return result;
     }
 
@@ -82,7 +92,7 @@ public class ShellScriptRunner {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonResponse);
         StringBuilder urls = new StringBuilder();
-        
+
         Iterator<Map.Entry<String, JsonNode>> fields = rootNode.fields();
         while (fields.hasNext()) {
             Map.Entry<String, JsonNode> entry = fields.next();
@@ -102,6 +112,7 @@ public class ShellScriptRunner {
         String shellScriptPath = "C:/Thunderhead/ccp-batch/src/main/resources/s3-files-download1.sh";
         ProcessBuilder processBuilder = new ProcessBuilder("bash", shellScriptPath, textFilePath);
         processBuilder.inheritIO();
+        logger.info("Executing shell script: " + shellScriptPath);
         Process process = processBuilder.start();
         process.waitFor();
     }
