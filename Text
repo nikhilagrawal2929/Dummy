@@ -1,29 +1,16 @@
-@echo off
-REM Check if CSV file argument is provided
-if "%1"=="" (
-    echo "Usage: runJavaProgram.bat <csv-file-path>"
-    exit /b 1
-)
-
-REM Set up variables
-set PROJECT_DIR=%~dp0
-set JAVA_FILE=com.example.ShellScriptRunner
-set CSV_FILE=%1
-
-REM Change directory to your project directory
-cd /d %PROJECT_DIR%
-
-REM Check if Maven is installed and available
-mvn -v > nul 2>&1
-if %errorlevel% neq 0 (
-    echo "Maven is not installed or not configured correctly."
-    exit /b 1
-)
-
-REM Ensure Maven downloads dependencies and builds the project
-mvn clean package
-
-REM Run your Java program
-java -cp target/classes;target/dependency/* %JAVA_FILE% %CSV_FILE%
-
-pause
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.0</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>com.example.ShellScriptRunner</mainClass>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
