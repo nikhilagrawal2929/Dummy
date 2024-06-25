@@ -1,152 +1,29 @@
-package com.example;
+@echo off
+REM Check if CSV file argument is provided
+if "%1"=="" (
+    echo "Usage: runJavaProgram.bat <csv-file-path>"
+    exit /b 1
+)
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+REM Set up variables
+set PROJECT_DIR=%~dp0
+set JAVA_FILE=com.example.ShellScriptRunner
+set CSV_FILE=%1
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+REM Change directory to your project directory
+cd /d %PROJECT_DIR%
 
-public class ShellScriptRunner {
-    private static final Logger logger = Logger.getLogger(ShellScriptRunner.class.getName());
+REM Check if Maven is installed and available
+mvn -v > nul 2>&1
+if %errorlevel% neq 0 (
+    echo "Maven is not installed or not configured correctly."
+    exit /b 1
+)
 
-    public static void main(String[] args) {
-        if (args.length != 1) {
-            logger.severe("Usage: java ShellScriptRunner <csv-file-path>");
-            System.exit(1);
-        }
+REM Ensure Maven downloads dependencies and builds the project
+mvn clean package
 
-        String csvFilePath = args[0];
-        String apiUrl = "https://app.ccpdev.shared.banksvcs.net/ccp/api/batch/regressionBulkRun";
-        String textFilePath = "urls.txt"; // Internally generated text file
+REM Run your Java program
+java -cp target/classes;target/dependency/* %JAVA_FILE% %CSV_FILE%
 
-        try {
-            // Call the API and get the response
-            ApiResponse apiResponse = callApi(apiUrl, csvFilePath);
-            if (apiResponse.getStatusCode() != 200) {
-                logger.severe("API call failed with status code: " + apiResponse.getStatusCode());
-                return;
-            }
-            logger.info("API call successful. Response received.");
-            
-            // Extract URLs from the API response
-            List<String> urls = extractUrlsFromApiResponse(apiResponse.getBody());
-            if (urls.isEmpty()) {
-                logger.info("No URLs found in API response.");
-                return;
-            }
-            logger.info("URLs extracted from API response.");
-            
-            // Write the URLs to a text file
-            writeUrlsToFile(urls, textFilePath);
-            logger.info("URLs written to file: " + textFilePath);
-            
-            // Run the shell script
-            runShellScript(textFilePath);
-            logger.info("Shell script executed successfully.");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "An error occurred", e);
-        }
-    }
-
-    private static ApiResponse callApi(String apiUrl, String csvFilePath) throws IOException {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost(apiUrl);
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addBinaryBody("file", new File(csvFilePath), ContentType.APPLICATION_OCTET_STREAM, "file.csv");
-
-        HttpEntity multipart = builder.build();
-        uploadFile.setEntity(multipart);
-
-        logger.info("Sending POST request to API: " + apiUrl);
-        CloseableHttpResponse response = httpClient.execute(uploadFile);
-        int statusCode = response.getStatusLine().getStatusCode();
-        HttpEntity responseEntity = response.getEntity();
-
-        String result = "";
-        if (responseEntity != null) {
-            try (InputStream instream = responseEntity.getContent()) {
-                result = inputStreamToString(instream);
-            }
-        }
-        response.close();
-        httpClient.close();
-        logger.info("API response received and processed.");
-        return new ApiResponse(statusCode, result);
-    }
-
-    private static String inputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    private static List<String> extractUrlsFromApiResponse(String apiResponse) {
-        List<String> urls = new ArrayList<>();
-        Pattern pattern = Pattern.compile("https?://[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=.]+");
-        Matcher matcher = pattern.matcher(apiResponse);
-
-        while (matcher.find()) {
-            urls.add(matcher.group());
-        }
-        Collections.sort(urls);
-        return urls;
-    }
-
-    private static void writeUrlsToFile(List<String> urls, String filePath) throws IOException {
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
-            // Write the first line as "dummy" or empty
-            writer.write("dummy");
-            writer.newLine();
-            
-            for (String url : urls) {
-                writer.write(url);
-                writer.newLine();
-            }
-        }
-    }
-
-    private static void runShellScript(String textFilePath) throws IOException, InterruptedException {
-        String shellScriptPath = "C:/Thunderhead/ccp-batch/src/main/resources/s3-files-download1.sh";
-        ProcessBuilder processBuilder = new ProcessBuilder("bash", shellScriptPath, textFilePath);
-        processBuilder.inheritIO();
-        logger.info("Executing shell script: " + shellScriptPath);
-        Process process = processBuilder.start();
-        process.waitFor();
-    }
-}
-
-class ApiResponse {
-    private final int statusCode;
-    private final String body;
-
-    public ApiResponse(int statusCode, String body) {
-        this.statusCode = statusCode;
-        this.body = body;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public String getBody() {
-        return body;
-    }
-}
+pause
