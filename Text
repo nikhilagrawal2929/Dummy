@@ -1,1 +1,108 @@
-https://chatgpt.com/share/8b7e6936-cce9-4ef1-a856-15f95e0edd81
+package com.example;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Map;
+
+public class ShellScriptRunner {
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: java ShellScriptRunner <text-file-path>");
+            System.exit(1);
+        }
+
+        String textFilePath = args[0];
+        String apiUrl = "https://app.ccpdev.shared.banksvcs.net/ccp/api/batch/regressionBulkRun";
+        String csvFilePath = "path/to/your/csvfile.csv"; // Update this path to your CSV file
+
+        try {
+            // Call the API and get the response
+            String jsonResponse = callApi(apiUrl, csvFilePath);
+            
+            // Extract URLs from the JSON response
+            String urls = extractUrlsFromJson(jsonResponse);
+            
+            // Write the URLs to a text file
+            writeUrlsToFile(urls, textFilePath);
+            
+            // Run the shell script
+            runShellScript(textFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String callApi(String apiUrl, String csvFilePath) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost uploadFile = new HttpPost(apiUrl);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addBinaryBody("file", new File(csvFilePath), ContentType.APPLICATION_OCTET_STREAM, "file.csv");
+        
+        HttpEntity multipart = builder.build();
+        uploadFile.setEntity(multipart);
+        
+        CloseableHttpResponse response = httpClient.execute(uploadFile);
+        HttpEntity responseEntity = response.getEntity();
+        
+        String result = "";
+        if (responseEntity != null) {
+            try (InputStream instream = responseEntity.getContent()) {
+                result = inputStreamToString(instream);
+            }
+        }
+        response.close();
+        httpClient.close();
+        return result;
+    }
+
+    private static String inputStreamToString(InputStream inputStream) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private static String extractUrlsFromJson(String jsonResponse) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonResponse);
+        StringBuilder urls = new StringBuilder();
+        
+        Iterator<Map.Entry<String, JsonNode>> fields = rootNode.fields();
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> entry = fields.next();
+            JsonNode valueNode = entry.getValue();
+            if (valueNode.has("URL")) {
+                urls.append(valueNode.get("URL").asText()).append("\n");
+            }
+        }
+        return urls.toString();
+    }
+
+    private static void writeUrlsToFile(String urls, String filePath) throws IOException {
+        Files.write(Paths.get(filePath), urls.getBytes());
+    }
+
+    private static void runShellScript(String textFilePath) throws IOException, InterruptedException {
+        String shellScriptPath = "C:/Thunderhead/ccp-batch/src/main/resources/s3-files-download1.sh";
+        ProcessBuilder processBuilder = new ProcessBuilder("bash", shellScriptPath, textFilePath);
+        processBuilder.inheritIO();
+        Process process = processBuilder.start();
+        process.waitFor();
+    }
+}
