@@ -1,53 +1,25 @@
-#############################################
-###push files from s3 to github repository###
-#############################################
-
-#!/bin/bash
-
-#Enable debug
-set -x
-
-#Declaring the parameter
-SOURCE_FILE=$1
-BUCKET_NAME=recp-2cp-dev-pm-files #change the bucket accordingly
-
-
-# Export AWS credentials as environment variables
-
-
-
-#Ensure the input file exists
-if [ ! -f "$SOURCE_FILE" ]; then
-    echo "File not found: $SOURCE_FILE, Kindly pass the file as argument"
-    exit 1
-fi
-
-#creating a directory
-directory=$(date +%F)
-
-if [ ! -d "$directory" ]; then
-    mkdir -p $directory
-    echo " Directory '$directory' created "
-else
-    echo " Directory '$directory' already exists "
-fi
-
-#Read the list of url from the user passed text files
-while IFS='\n' read line
-    do
-    echo $line
-    # Extract the S3 object file name from the URL
-    s3FileName=$(echo $line | awk -F'/' '{print $NF}' )
-
-    echo "object file name : $s3FileName "
-
-    #get files to local
-    aws s3 cp s3://$BUCKET_NAME/$s3FileName ./$directory/ --region=eu-west-1
-
-    if [ $? -ne 0 ]; then
-        echo "Failed to download: s3://$BUCKET_NAME/$s3FileName"
-    fi
-
-    echo "File $s3FileName downloaded to local successfully"
-
-    done < $SOURCE_FILE
+<dependencies>
+    <!-- AWS SDK for S3 -->
+    <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-s3</artifactId>
+        <version>1.11.1000</version> <!-- Use the latest version -->
+    </dependency>
+    <!-- SLF4J for logging -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.30</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.30</version>
+    </dependency>
+    <!-- JSON library -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20210307</version>
+    </dependency>
+</dependencies>
