@@ -1,1 +1,19 @@
-https://chatgpt.com/share/8b7e6936-cce9-4ef1-a856-15f95e0edd81
+This application allows NATWEST staff (bank colleagues) to send letters via print channel. The application consists of 3 main layers viz; Communication Composition Portal (CCP – ReactJs frontend web-application), Communication Services (CS 0- Springboot microservices), Communication Composition Services (CCS – Messagepoint & Sefas product services to be consumed by Communication services (CS) to compose, post compose and perform downstream operations on the customer communication). 
+
+CCP will communicate with CCS using product web service API. Communication Services (CS) consumes bank core webservices (CICS web-services) via ESP to fetch customer statement address. The frontend portal is providing SSO via Bank’s PingIdentity (IdP) FSSO 
+
+The solution generates intermediate output files “VPF” once the letter has been finalized by bank colleagues. The generated VPF files are picked up Sefas Producer for post-composition after 7:00 PM and PDF & AFPs are generated out of it.  
+
+The output PDF files are batched together as single PPD file (Multiple PDF files along with metadata agreed with ECM) are archived to bank’s ECM via GSS file transfer into CMOD repository. The CMOD intelligently splits up files and store them in a way that they can be individually retrieved via FileNet postal. GSS also delivers generated AFP files to third party Paragon for central print and delivery.  
+
+Solution Overview 
+
+At a high level the solution for this Communication Composition Platform (2CP) is proposed as mentioned below. 
+
+Communication Composition Portal (CCP – ReactJS Frontend Application) can be accessed by bank staff from browser via intranet. 
+
+Portal internally communicates with Communication Services (CS – Backend Springboot Microservices) which have been exposed as an API endpoint. 
+
+These Communication Services relies on different external services such as Messagepoint, Sefas Engine, Sefas Producer, Bank Core Webservices (CICS Webservices), CES (Customer Event System), and ECM SI to fulfill necessary business functionalities as per the request. 
+
+ 
