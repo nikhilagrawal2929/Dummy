@@ -1,5 +1,4 @@
-Hi All,
- 
-For the existing certificates due to expire on August 22nd,  we needed to generate PEM file and adding them to cacerts which we did over the call following the steps on confluence. However, this exercise was initially done by the Support Team over a call with Kishor earlier and should not have been needed again yesterday. As a Lessons Learnt activity, It would be important to know why we deleted the PEM files. Nevertheless, we did it over the call again.
- 
-The next step is now to execute the script given by Kishor to import these PEMs into cacerts rather than doing it manually. As it is giving some errors, there is a requirement to assess the errors and try to fix it. This, we discussed, will be attempted by Support team. In case, you still face any more challenges, we can still try to do RnD activity over a screenshare.  However, I would advise you to try first
+keytool -list -keystore "%JAVA_HOME%\lib\security\cacerts" -storepass changeit
+
+
+keytool -list -keystore "%JAVA_HOME%\lib\security\cacerts" -storepass changeit | find /c "trustedCertEntry"
