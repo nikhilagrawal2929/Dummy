@@ -1,4 +1,1 @@
-keytool -list -keystore "%JAVA_HOME%\lib\security\cacerts" -storepass changeit
-
-
-keytool -list -keystore "%JAVA_HOME%\lib\security\cacerts" -storepass changeit | find /c "trustedCertEntry"
+I investigated the issue and found that when the Messagepoint webhook calls the 2CP backend services with job IDs, the backend service uses these job IDs to call the MPDC API for additional information. It appears that a 500 error occurs intermittently, likely due to the MPDC server being down at those times. I've reviewed the logs but did not find the same error consistently.
