@@ -2,19 +2,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import javax.annotation.PreDestroy;
 import java.util.concurrent.Executor;
 
 @Configuration
 public class AsyncConfig {
 
+    private ThreadPoolTaskExecutor executor;
+
     @Bean(name = "asyncExecutor")
     public Executor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);   // Minimum number of threads
-        executor.setMaxPoolSize(50);    // Maximum number of threads
-        executor.setQueueCapacity(100); // Queue capacity before rejecting tasks
+        executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("AsyncThread-");
         executor.initialize();
         return executor;
+    }
+
+    @PreDestroy
+    public void shutdownExecutor() {
+        if (executor != null) {
+            executor.shutdown();
+        }
     }
 }
