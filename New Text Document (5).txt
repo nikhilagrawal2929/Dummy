@@ -1,1 +1,20 @@
-I investigated the issue and found that when the Messagepoint webhook calls the 2CP backend services with job IDs, the backend service uses these job IDs to call the MPDC API for additional information. It appears that a 500 error occurs intermittently, likely due to the MPDC server being down at those times. I've reviewed the logs but did not find the same error consistently.
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
+
+@Configuration
+public class AsyncConfig {
+
+    @Bean(name = "asyncExecutor")
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);   // Minimum number of threads
+        executor.setMaxPoolSize(50);    // Maximum number of threads
+        executor.setQueueCapacity(100); // Queue capacity before rejecting tasks
+        executor.setThreadNamePrefix("AsyncThread-");
+        executor.initialize();
+        return executor;
+    }
+}
