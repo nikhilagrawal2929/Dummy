@@ -1,30 +1,22 @@
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+Here is the process in points:
 
-import javax.annotation.PreDestroy;
-import java.util.concurrent.Executor;
+1. **Current Workflow (Synchronous)**:
+   - Webhook from Messagepoint makes a POST request to PrintSpool API with parameters: `jobId` and `externalId`.
+   - PrintSpool service performs the following tasks:
+     - Uses `jobId` to call Messagepoint API and retrieves a `referenceId`.
+     - Calls Messagepoint API again using `referenceId` to get additional information.
+     - Calls the bank core API to register the order creation event.
+   - If any step fails during the process, an error is returned.
 
-@Configuration
-public class AsyncConfig {
+2. **Proposed Workflow (Asynchronous)**:
+   - Webhook from Messagepoint makes a POST request to PrintSpool API.
+   - PrintSpool API immediately responds with a `200` status code to acknowledge the webhook.
+   - The following process is now handled asynchronously:
+     - `jobId` is used to call Messagepoint API to retrieve the `referenceId`.
+     - `referenceId` is used to get further details from Messagepoint API.
+     - A call is made to the bank core API to register the order creation event.
+   - Any errors encountered during the asynchronous process are:
+     - Logged in detail.
+     - An incident is raised, and error information is noted in logs for further analysis.
 
-    private ThreadPoolTaskExecutor executor;
-
-    @Bean(name = "asyncExecutor")
-    public Executor taskExecutor() {
-        executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(50);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("AsyncThread-");
-        executor.initialize();
-        return executor;
-    }
-
-    @PreDestroy
-    public void shutdownExecutor() {
-        if (executor != null) {
-            executor.shutdown();
-        }
-    }
-}
+This approach ensures the webhook call receives an immediate response while background tasks are handled asynchronously, with error handling done through logging and incident raising.
