@@ -1,1 +1,5 @@
-https://chatgpt.com/share/66f3db45-3188-8003-9361-b2dc858fc9eb
+I am writing to request your approval for deploying the changes that convert our synchronous webhook process to an asynchronous workflow. This has been successfully tested in the DEV environment.
+
+We plan to deploy to production on 5th October using the image prod-v5. In case of any failures, we will revert to the previous image prod-v4.
+
+I would appreciate your confirmation to proceed with this deployment.
