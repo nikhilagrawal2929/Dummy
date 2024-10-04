@@ -1,5 +1,3 @@
-I am writing to request your approval for deploying the changes that convert our synchronous webhook process to an asynchronous workflow. This has been successfully tested in the DEV environment.
+Hi Scott/Shashi,
 
-We plan to deploy to production on 5th October using the image prod-v5. In case of any failures, we will revert to the previous image prod-v4.
-
-I would appreciate your confirmation to proceed with this deployment.
+We cannot overlook this issue. We're encountering a Java runtime exception while parsing the response from ESP for the specific sort code and account number (123456 and 12345678), both of which are valid. I am currently investigating it further
