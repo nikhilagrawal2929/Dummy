@@ -1,3 +1,3 @@
 Hi Scott/Shashi,
 
-We cannot overlook this issue. We're encountering a Java runtime exception while parsing the response from ESP for the specific sort code and account number (123456 and 12345678), both of which are valid. I am currently investigating it further
+I’m currently investigating an issue that occurred during the debugging of all services involved in the distributed order creation flow. We cannot overlook this, as it’s causing a Java runtime exception while parsing the response from ESP for the provided sort code and account number (123456 and 12345678), which are valid. I'm looking into it further to identify the root cause.
