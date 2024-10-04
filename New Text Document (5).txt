@@ -1,3 +1,1 @@
-Hi Scott/Shashi,
-
-I’m currently investigating an issue that occurred during the debugging of all services involved in the distributed order creation flow. We cannot overlook this, as it’s causing a Java runtime exception while parsing the response from ESP for the provided sort code and account number (123456 and 12345678), which are valid. I'm looking into it further to identify the root cause.
+I have investigated the issue, and it is caused by empty responses for the mandatory fields `AddressLine1` and `AddressLine2`. These fields are used to generate the salutation, and the problem occurs for only one specific sort code and account number. I am implementing a code change to handle this scenario.
