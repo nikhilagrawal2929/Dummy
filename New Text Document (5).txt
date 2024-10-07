@@ -1,1 +1,1 @@
-I have investigated the issue, and it is caused by empty responses for the mandatory fields `AddressLine1` and `AddressLine2`. These fields are used to generate the salutation, and the problem occurs for only one specific sort code and account number. I am implementing a code change to handle this scenario.
+https://chatgpt.com/share/67040367-50fc-8003-8df6-1665077f1511
