@@ -1,1 +1,4 @@
 https://chatgpt.com/share/67040367-50fc-8003-8df6-1665077f1511
+Here's a refined version of your message:
+
+"We are writing to inform you that we have encountered an issue while hitting the ESP core services from our backend services, which resulted in some failures. If the issue occurs again, we will provide further details. This email is just to notify you of the issue we experienced."
