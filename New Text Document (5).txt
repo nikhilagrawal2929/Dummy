@@ -1,4 +1,34 @@
-https://chatgpt.com/share/67040367-50fc-8003-8df6-1665077f1511
-Here's a refined version of your message:
+Body
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://messagepoint.com/api/schemas">
+<soapenv:Header>
+<wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+<wsse:UsernameToken wsu:Id="">
+<wsse:Username>NWB-2CP-Users</wsse:Username>
+<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#Password">TmF0d2VzdEAxMjM0</wsse:Password>
+</wsse:UsernameToken>
+</wsse:Security>
+</soapenv:Header>
+<soap:Body>
+    <ReleaseForApprovalOrActivateConnectedOrderRequest xmlns="http://messagepoint.com/api/schemas">
+      <BranchId>sandbox</BranchId>
+      <NodeId>development</NodeId>
+      <Prerelease>false</Prerelease>
+      <ExternalOrderId>8E5304B280809FBDAF2E8BA206C7CC3D</ExternalOrderId>
+    </ReleaseForApprovalOrActivateConnectedOrderRequest>
+  </soap:Body>
+</soap:Envelope>
+ 
+Response 
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <mp:ReleaseForApprovalOrActivateConnectedOrderResponse xmlns:mp="http://messagepoint.com/api/schemas">
+            <mp:SuccessResponse>Successfully activated order with id = 8E5304B280809FBDAF2E8BA206C7CC3D</mp:SuccessResponse>
+        </mp:ReleaseForApprovalOrActivateConnectedOrderResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 
-"We are writing to inform you that we have encountered an issue while hitting the ESP core services from our backend services, which resulted in some failures. If the issue occurs again, we will provide further details. This email is just to notify you of the issue we experienced."
+	Error
+
+ 
