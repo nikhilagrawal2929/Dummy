@@ -1,0 +1,57 @@
+<mxfile>
+  <diagram name="Page-1">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <!-- Salesforce/nCino -->
+        <mxCell id="salesforce" value="Salesforce/nCino" style="shape=image;image=data:image/svg+xml;base64,[...];verticalLabelPosition=bottom;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="40" y="200" width="80" height="80"/>
+        </mxCell>
+        <!-- xAPI Endpoint -->
+        <mxCell id="xapi" value="xAPI Endpoint" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="180" y="220" width="120" height="40"/>
+        </mxCell>
+        <!-- company-information-service -->
+        <mxCell id="cis" value="company-information-service" style="shape=cylinder3;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="360" y="220" width="120" height="60"/>
+        </mxCell>
+        <!-- Kafka Producer/Queue -->
+        <mxCell id="kafka" value="Kafka" style="shape=image;image=data:image/svg+xml;base64,[...];" parent="1" vertex="1">
+          <mxGeometry x="540" y="220" width="80" height="60"/>
+        </mxCell>
+        <!-- company-information-processor -->
+        <mxCell id="cip" value="company-information-processor" style="shape=cylinder3;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+          <mxGeometry x="360" y="320" width="120" height="60"/>
+        </mxCell>
+        <!-- DueDil API -->
+        <mxCell id="duedil" value="DueDil API" style="shape=cloud;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="540" y="340" width="120" height="60"/>
+        </mxCell>
+        <!-- PostgreSQL -->
+        <mxCell id="postgres" value="PostgreSQL" style="shape=image;image=data:image/svg+xml;base64,[...];" parent="1" vertex="1">
+          <mxGeometry x="720" y="220" width="80" height="80"/>
+        </mxCell>
+        <!-- Arrows -->
+        <mxCell id="arrow1" style="edgeStyle=none;endArrow=classic;dashed=1;" parent="1" source="salesforce" target="xapi" edge="1">
+          <mxGeometry relative="1">
+            <mxPoint x="180" y="240" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow2" value="HPJ/LPJ" style="edgeStyle=none;endArrow=classic;" parent="1" source="xapi" target="cis" edge="1"/>
+        <mxCell id="arrow3" value="Produce" style="edgeStyle=none;endArrow=classic;" parent="1" source="cis" target="kafka" edge="1"/>
+        <mxCell id="arrow4" value="Consume" style="edgeStyle=none;endArrow=classic;" parent="1" source="kafka" target="cip" edge="1"/>
+        <mxCell id="arrow5" value="Call API" style="edgeStyle=none;endArrow=classic;" parent="1" source="cip" target="duedil" edge="1"/>
+        <mxCell id="arrow6" value="Store Data" style="edgeStyle=none;endArrow=classic;" parent="1" source="cip" target="postgres" edge="1">
+          <mxGeometry relative="1">
+            <mxPoint x="720" y="260" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <!-- Status Labels -->
+        <mxCell id="status1" value="queued → DueDilProcessed → SalesforceProcessed" style="text;strokeColor=none;fillColor=none;align=center;" parent="1" vertex="1">
+          <mxGeometry x="400" y="400" width="200" height="20"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
